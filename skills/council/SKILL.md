@@ -13,13 +13,16 @@ and explore new ideas, skip fixes to code being replaced.
 Bring in three delegates to help with the user's request, usually for review
 or feedback. Use one strong model from each of three different providers, at
 high reasoning effort. If the user's instructions name council members, use
-those. Otherwise pick the latest flagship model from each provider, for
-example Claude Opus, GPT Sol, and Gemini Pro.
+those. Otherwise resolve providers that can run a child task. Do not require
+Codex or GPT Sol. Skip a disabled provider. On this install the order is
+Claude `claude-fable-5-2` (else `claude-opus-5-5`), Grok `grok-4.7`, then
+OpenCode `opencode-go/deepseek-v4-pro`, all at high effort.
 
 In T3 Code, use `orchestrator_capabilities` to resolve the models, then
 `delegate_task` to start one delegate per model in parallel. Elsewhere, use
-the harness's subagent tools. If you cannot reach three providers, or a named
-member is unavailable, report it instead of substituting.
+the harness's subagent tools. If a named member is unavailable, report that
+seat instead of swapping it. If fewer than three providers can run, name the
+empty seats and run the ones that can. Do not invent a provider.
 
 Give each delegate the request and relevant context. For review or feedback,
 keep their work read-only. Collect their responses and summarize the useful
@@ -45,9 +48,9 @@ Rounds: 2
 
 | Delegate | Round 1 | Round 2 |
 | --- | --- | --- |
-| Claude Opus | 7/10 | 9/10 |
-| GPT Sol | 8/10 | 10/10 |
-| Gemini Pro | 7/10 | 9/10 |
+| Claude Fable | 7/10 | 9/10 |
+| Grok 4.7 | 8/10 | 10/10 |
+| OpenCode DeepSeek | 7/10 | 9/10 |
 ```
 
 If a delegate gives no score, write `no score`. Do not invent one.

@@ -6,10 +6,9 @@ description: Use when the user says "sol loop".
 # sol-loop
 
 This is a workflow for making your code changes more correct before (or
-sometimes after) filing a pull request. tl;dr - use OpenAI's GPT Sol to review
-your code in a loop.
+sometimes after) filing a pull request. One reviewer, in a loop.
 
-Make the most minimal possible changes to appease the Sol reviewers. Be careful
+Make the most minimal possible changes to appease the reviewer. Be careful
 of scope creep and don't be scared to push back.
 
 ## Budget
@@ -21,7 +20,7 @@ of scope creep and don't be scared to push back.
   the user asks.
 - Stop early if a round returns only nits. Declined nits and comment,
   doc, or format-only fixes need no new round.
-- One reviewer only. Sol must not start subagents or reviewers.
+- One reviewer only. It must not start subagents or reviewers.
 - Keep a ledger: id, severity, outcome, usage if returned. Never guess it.
 
 ## 1. Scope
@@ -43,19 +42,34 @@ Use one diff command all rounds. State intent and out-of-scope in 1-2
 sentences. Run covering checks. Do not send code this change breaks. Note
 missing or pre-failing checks in the brief.
 
-## 2. Start Sol
+## 2. Start the reviewer
 
-In T3, call `orchestrator_capabilities`. Pick the latest Sol unless the user
-named a version. Do not hardcode an ID. Record provider, model, and effort
-only if exposed. Use `delegate_task` every round (`role: "review"`,
-`mode: "async"`). Save `taskId`. New `clientRequestId` per round.
-`childThreadId` is storage, not the next target. Do not use
-`t3_thread_send`, `create_threads`, or `t3_thread_launch` for review.
+In T3, call `orchestrator_capabilities`. Pick one reviewer, in this order.
+Do not hardcode an instance id. Record provider, model, and effort only if
+exposed.
+
+1. A model the user named, if that provider can run a child task.
+2. The latest Sol, if a provider that can run a child task lists one.
+3. Otherwise the first row below whose provider can run a child task and is
+   not the parent provider. If the only row that can run is the parent, use
+   it and say so.
+   - Claude: `claude-fable-5-2` at effort `high`. If that id is absent,
+     `claude-opus-5-5` at effort `high`.
+   - Grok: `grok-4.7` at reasoning effort `high`.
+   - OpenCode: `opencode-go/deepseek-v4-pro` at variant `high`.
+
+Codex being disabled is not a blocker when a row above can run. If none can,
+report the blocker. Do not invent a model.
+
+Use `delegate_task` every round (`role: "review"`, `mode: "async"`). Save
+`taskId`. New `clientRequestId` per round. `childThreadId` is storage, not
+the next target. Do not use `t3_thread_send`, `create_threads`, or
+`t3_thread_launch` for review.
 
 If T3 tools are not listed, try one direct capability call. Outside T3, use
-a native Sol subagent and keep its ID. In Claude Code, use a custom subagent
-only if it is set up to run Sol. If no route runs Sol, report the blocker. Do
-not substitute a model.
+a native subagent for the same model and keep its ID. In Claude Code, use a
+custom subagent only if it runs that model. If no route runs it, report the
+blocker.
 
 Do not edit scoped files while review runs. Wait for the notice. Do not
 poll or start a second reviewer. Timeout, error, or no reply is not
@@ -97,7 +111,7 @@ Start one only if budget remains and a blocker or should is open, behavior code
 changed, or approval does not cover the current behavior diff. Use a fresh
 `delegate_task` in T3, or follow up the saved native ID. Send the round 1 brief,
 the ledger (`fixed:` / `disagree:` / `declined:` + evidence), the same base
-diff, and the change since last round. Tell Sol: open ids and changed code only.
+diff, and the change since last round. Tell the reviewer: open ids and changed code only.
 Mark each old id `resolved` or `still open: <reason>`.
 
 ## 5. Stop and ship
@@ -111,9 +125,9 @@ Do not push during the loop. Push after agreement only if the user asked
 to push, ship, or update the PR. If you push to a PR, add above the model
 blurb:
 
-`Reviewed with sol-loop: <N> rounds with <model>. Sol verdict: approved`.
+`Reviewed with sol-loop: <N> rounds with <model>. Verdict: approved`.
 
 Add `on <effort>` only if verified.
 
-Report: rounds, model, what Sol changed, diff size before/after, fixed and
+Report: rounds, model, what the reviewer changed, diff size before/after, fixed and
 declined findings with reasons, usage if exposed (else say not), pushed or not.
