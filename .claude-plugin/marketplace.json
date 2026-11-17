@@ -1,0 +1,14 @@
+{
+  "name": "tstack-marketplace",
+  "owner": {
+    "name": "Filipe Miranda"
+  },
+  "description": "t3dotgg/tstack skills: full-send, sol-loop, file-pr, babysit-pr, and the rest.",
+  "plugins": [
+    {
+      "name": "tstack",
+      "source": "./",
+      "description": "t3dotgg/tstack skills: full-send, sol-loop, file-pr, babysit-pr, and the rest."
+    }
+  ]
+}
