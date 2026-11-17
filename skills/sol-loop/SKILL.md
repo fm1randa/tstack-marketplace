@@ -53,10 +53,9 @@ exposed.
 3. Otherwise the first row below whose provider can run a child task and is
    not the parent provider. If the only row that can run is the parent, use
    it and say so.
-   - Claude: `claude-fable-5-2` at effort `high`. If that id is absent,
-     `claude-opus-5-5` at effort `high`.
-   - Grok: `grok-4.7` at reasoning effort `high`.
-   - OpenCode: `opencode-go/deepseek-v4-pro` at variant `high`.
+   - Claude: `claude-sonnet-5-5` at effort `medium`.
+   - Grok: `grok-4.7-build-fast` at reasoning effort `medium`.
+   - OpenCode: `opencode-go/deepseek-v4.1-flash` at variant `high`.
 
 Codex being disabled is not a blocker when a row above can run. If none can,
 report the blocker. Do not invent a model.

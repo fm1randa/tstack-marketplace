@@ -5,8 +5,9 @@ Claude Code marketplace `tstack-marketplace` wrapping [t3dotgg/tstack](https://g
 Plugin id: `tstack@tstack-marketplace`.
 
 Reviewer: Codex Sol when that provider can run a child task. Otherwise Claude
-`claude-fable-5-2`, then Grok `grok-4.7`, then OpenCode
-`opencode-go/deepseek-v4-pro`, skipping the parent provider.
+`claude-sonnet-5-5` at effort `medium`, then Grok `grok-4.7-build-fast` at
+reasoning effort `medium`, then OpenCode `opencode-go/deepseek-v4.1-flash` at
+variant `high`, skipping the parent provider.
 
 Install:
 

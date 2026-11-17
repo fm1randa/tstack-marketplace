@@ -11,12 +11,13 @@ fixes until reviews return. If the user wants to discard the implementation
 and explore new ideas, skip fixes to code being replaced.
 
 Bring in three delegates to help with the user's request, usually for review
-or feedback. Use one strong model from each of three different providers, at
-high reasoning effort. If the user's instructions name council members, use
-those. Otherwise resolve providers that can run a child task. Do not require
-Codex or GPT Sol. Skip a disabled provider. On this install the order is
-Claude `claude-fable-5-2` (else `claude-opus-5-5`), Grok `grok-4.7`, then
-OpenCode `opencode-go/deepseek-v4-pro`, all at high effort.
+or feedback. Use one model from each of three different providers. If the
+user's instructions name council members, use those. Otherwise resolve
+providers that can run a child task. Do not require Codex or GPT Sol. Skip a
+disabled provider. On this install the seats are Claude `claude-sonnet-5-5`
+at effort `medium`, Grok `grok-4.7-build-fast` at reasoning effort `medium`,
+and OpenCode `opencode-go/deepseek-v4.1-flash` at variant `high`. These are
+the Sol-class reviewers. Do not swap in Fable, Opus, or another tier.
 
 In T3 Code, use `orchestrator_capabilities` to resolve the models, then
 `delegate_task` to start one delegate per model in parallel. Elsewhere, use
@@ -48,9 +49,9 @@ Rounds: 2
 
 | Delegate | Round 1 | Round 2 |
 | --- | --- | --- |
-| Claude Fable | 7/10 | 9/10 |
-| Grok 4.7 | 8/10 | 10/10 |
-| OpenCode DeepSeek | 7/10 | 9/10 |
+| Claude Sonnet | 7/10 | 9/10 |
+| Grok 4.7 Fast | 8/10 | 10/10 |
+| DeepSeek V4.1 Flash | 7/10 | 9/10 |
 ```
 
 If a delegate gives no score, write `no score`. Do not invent one.
