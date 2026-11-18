@@ -1,9 +1,10 @@
 Skills copied from https://github.com/t3dotgg/tstack at 11e37a74d0a6868c121cd0910ab2b3bd9873b92a.
 MIT license. This repo adds the Claude Code marketplace manifest.
 
-Local patch: sol-loop and council do not require Codex Sol. When Sol cannot
-run a child task, the reviewer is the first of Claude `claude-sonnet-5-5`
-(effort `medium`), Grok `grok-4.7-build-fast` (reasoning effort `medium`),
-and OpenCode `opencode-go/deepseek-v4.1-flash` (variant `high`) whose
-provider can run and is not the parent. Re-apply this patch when refreshing
-from upstream. See skills/sol-loop/SKILL.md and skills/council/SKILL.md.
+Local patch: sol-loop and council do not require Codex Sol. sol-loop reviews
+with the row for the thread's provider: Claude `claude-sonnet-5-5` (effort
+`medium`), Grok `grok-4.7-build-fast` (reasoning effort `medium`), OpenCode
+`opencode-go/deepseek-v4.1-flash` (variant `high`), Codex the latest Sol. It
+does not switch to another provider. Council still seats all three.
+Re-apply this patch when refreshing from upstream. See
+skills/sol-loop/SKILL.md and skills/council/SKILL.md.

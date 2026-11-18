@@ -49,16 +49,14 @@ Do not hardcode an instance id. Record provider, model, and effort only if
 exposed.
 
 1. A model the user named, if that provider can run a child task.
-2. The latest Sol, if a provider that can run a child task lists one.
-3. Otherwise the first row below whose provider can run a child task and is
-   not the parent provider. If the only row that can run is the parent, use
-   it and say so.
+2. The row for the parent provider. The reviewer follows the thread.
    - Claude: `claude-sonnet-5-5` at effort `medium`.
    - Grok: `grok-4.7-build-fast` at reasoning effort `medium`.
    - OpenCode: `opencode-go/deepseek-v4.1-flash` at variant `high`.
+   - Codex: the latest Sol, if that provider can run a child task and lists one.
 
-Codex being disabled is not a blocker when a row above can run. If none can,
-report the blocker. Do not invent a model.
+Do not switch to another provider. If the parent has no row, or that provider
+cannot run a child task, report the blocker. Do not invent a model.
 
 Use `delegate_task` every round (`role: "review"`, `mode: "async"`). Save
 `taskId`. New `clientRequestId` per round. `childThreadId` is storage, not
